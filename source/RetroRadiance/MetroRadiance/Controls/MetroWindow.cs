@@ -153,11 +153,9 @@ namespace MetroRadiance.Controls
 
 		private static void IsCaptionBarChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			var instance = d as FrameworkElement;
-			if (instance == null) return;
+			if (!(d is FrameworkElement instance)) return;
 
-			var window = GetWindow(instance) as MetroWindow;
-			if (window == null) return;
+			if (!(GetWindow(instance) is MetroWindow window)) return;
 
 			window.captionBar = (bool)e.NewValue ? instance : null;
 
@@ -242,9 +240,8 @@ namespace MetroRadiance.Controls
 
 			if (!e.Cancel && this.WindowSettings != null)
 			{
-				WINDOWPLACEMENT placement;
 				var hwnd = new WindowInteropHelper(this).Handle;
-				NativeMethods.GetWindowPlacement(hwnd, out placement);
+				NativeMethods.GetWindowPlacement(hwnd, out var placement);
 
 				this.WindowSettings.Placement = this.IsRestoringWindowPlacement ? (WINDOWPLACEMENT?)placement : null;
 				this.WindowSettings.Save();
