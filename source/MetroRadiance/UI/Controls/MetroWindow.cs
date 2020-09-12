@@ -62,27 +62,6 @@ namespace MetroRadiance.UI.Controls
 
 		#endregion
 
-		#region MetroChrome 依存関係プロパティ
-
-		public static readonly DependencyProperty MetroChromeProperty = DependencyProperty.Register(
-			nameof(MetroChrome), typeof(MetroChrome), typeof(MetroWindow), new PropertyMetadata(null, HandleMetroChromeChanged));
-
-		public MetroChrome MetroChrome
-		{
-			get { return (MetroChrome)this.GetValue(MetroChromeProperty); }
-			set { this.SetValue(MetroChromeProperty, value); }
-		}
-
-		private static void HandleMetroChromeChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
-		{
-			var chrome = (MetroChrome)args.NewValue;
-			var window = (Window)d;
-
-			MetroChrome.SetInstance(window, chrome);
-		}
-
-		#endregion
-
 		#region DpiScaleTransform 依存関係プロパティ
 
 		/// <summary>
@@ -155,16 +134,39 @@ namespace MetroRadiance.UI.Controls
 
 			instance.Loaded += (sender, args) =>
 			{
-				var chrome = ShellChrome.GetWindowChrome(window);
-				if (chrome != null) chrome.CaptionHeight = instance.ActualHeight;
+				window.UpdateIsCaptionBarHeight();
 			};
+		}
+
+		private void UpdateIsCaptionBarHeight()
+		{
+			var chrome = ShellChrome.GetWindowChrome(this);
+			if (chrome == null) return;
+
+			var captionBar = this.captionBar;
+			if (captionBar != null)
+			{
+				if (this.systemDpi.Y > 0)
+				{
+					chrome.CaptionHeight = captionBar.ActualHeight * this.CurrentDpi.Y / this.systemDpi.Y;
+				}
+				else
+				{
+					chrome.CaptionHeight = captionBar.ActualHeight;
+				}
+			}
+			else
+			{
+				chrome.CaptionHeight = 0;
+			}
 		}
 
 		#endregion
 
 		public MetroWindow()
 		{
-			this.MetroChrome = new MetroChrome();
+			var metroChrome = new MetroChrome();
+			MetroChrome.SetInstance(this, metroChrome);
 		}
 
 		protected override void OnSourceInitialized(EventArgs e)
@@ -239,9 +241,8 @@ namespace MetroRadiance.UI.Controls
 
 			if (!e.Cancel && this.WindowSettings != null)
 			{
-				WINDOWPLACEMENT placement;
 				var hwnd = new WindowInteropHelper(this).Handle;
-				User32.GetWindowPlacement(hwnd, out placement);
+				var placement = User32.GetWindowPlacement(hwnd);
 
 				this.WindowSettings.Placement = this.IsRestoringWindowPlacement ? (WINDOWPLACEMENT?)placement : null;
 				this.WindowSettings.Save();
@@ -275,29 +276,77 @@ namespace MetroRadiance.UI.Controls
 					}
 				}
 			}
+			else if (msg == (int)WindowsMessages.WM_NCCALCSIZE)
+			{
+				if (wParam != IntPtr.Zero)
+				{
+					var result = this.CalcNonClientSize(hwnd, lParam, ref handled);
+					if (handled) return result;
+				}
+			}
 			else if (msg == (int)WindowsMessages.WM_DPICHANGED)
 			{
 				var dpiX = wParam.ToLoWord();
 				var dpiY = wParam.ToHiWord();
-				this.ChangeDpi(new Dpi(dpiX, dpiY));
+				var rect = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT));
+				this.ChangeDpi(new Dpi(dpiX, dpiY), rect);
 				handled = true;
 			}
 
 			return IntPtr.Zero;
 		}
 
-		private void ChangeDpi(Dpi dpi)
+		private IntPtr CalcNonClientSize(IntPtr hWnd, IntPtr lParam, ref bool handled)
+		{
+			if (!User32.IsZoomed(hWnd)) return IntPtr.Zero;
+
+			var rcsize = Marshal.PtrToStructure<NCCALCSIZE_PARAMS>(lParam);
+			if (rcsize.lppos.flags.HasFlag(SetWindowPosFlags.SWP_NOSIZE)) return IntPtr.Zero;
+
+			var hMonitor = User32.MonitorFromWindow(hWnd, MonitorDefaultTo.MONITOR_DEFAULTTONEAREST);
+			if (hMonitor == IntPtr.Zero) return IntPtr.Zero;
+
+			var monitorInfo = new MONITORINFO()
+			{
+				cbSize = (uint)Marshal.SizeOf(typeof(MONITORINFO))
+			};
+			if (!User32.GetMonitorInfo(hMonitor, ref monitorInfo)) return IntPtr.Zero;
+
+			var workArea = monitorInfo.rcWork;
+			AppBar.ApplyAppbarSpace(monitorInfo.rcMonitor, ref workArea);
+
+			rcsize.rgrc[0] = workArea;
+			rcsize.rgrc[1] = workArea;
+			Marshal.StructureToPtr(rcsize, lParam, true);
+			handled = true;
+			return (IntPtr)(WindowValidRects.WVR_ALIGNTOP | WindowValidRects.WVR_ALIGNLEFT | WindowValidRects.WVR_VALIDRECTS);
+		}
+
+		private void ChangeDpi(Dpi dpi, RECT rect)
 		{
 			if (!PerMonitorDpi.IsSupported) return;
 
+			this.ChangeDpi(dpi);
+
+			User32.SetWindowPos(
+				this.source.Handle,
+				IntPtr.Zero,
+				rect.Left,
+				rect.Top,
+				rect.Right - rect.Left,
+				rect.Bottom - rect.Top,
+				SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOOWNERZORDER);
+
+			this.CurrentDpi = dpi;
+
+			this.UpdateIsCaptionBarHeight();
+		}
+
+		private void ChangeDpi(Dpi dpi)
+		{
 			this.DpiScaleTransform = dpi == this.systemDpi
 				? Transform.Identity
 				: new ScaleTransform((double)dpi.X / this.systemDpi.X, (double)dpi.Y / this.systemDpi.Y);
-
-			this.Width = this.Width * dpi.X / this.CurrentDpi.X;
-			this.Height = this.Height * dpi.Y / this.CurrentDpi.Y;
-
-			this.CurrentDpi = dpi;
 		}
 	}
 }

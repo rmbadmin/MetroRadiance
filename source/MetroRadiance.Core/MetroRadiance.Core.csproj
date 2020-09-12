@@ -44,7 +44,16 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interop\Appbar.cs" />
     <Compile Include="Interop\Dpi.cs" />
+    <Compile Include="Interop\Win32\APPBARDATA.cs" />
+    <Compile Include="Interop\Win32\AppBarEdges.cs" />
+    <Compile Include="Interop\Win32\AppBarMessages.cs" />
+    <Compile Include="Interop\Win32\AppBarStates.cs" />
+    <Compile Include="Interop\Win32\MONITORINFOEX.cs" />
+    <Compile Include="Interop\Win32\NCCALCSIZE_PARAMS.cs" />
+    <Compile Include="Interop\Win32\WindowValidRects.cs" />
+    <Compile Include="Interop\Win32\Shell32.cs" />
     <Compile Include="Platform\ImmersiveColor.cs" />
     <Compile Include="Interop\InteropExtensions.cs" />
     <Compile Include="Interop\MonitorDpiType.cs" />
@@ -55,13 +64,16 @@
     <Compile Include="Media\ColorHelper.cs" />
     <Compile Include="Media\HsvColor.cs" />
     <Compile Include="Media\Luminosity.cs" />
+    <Compile Include="Platform\IWindowsThemeValue.cs" />
     <Compile Include="Platform\WindowComposition.cs" />
+    <Compile Include="Platform\WindowsThemeConstantValue.cs" />
     <Compile Include="Platform\WindowsThemeValues.cs" />
     <Compile Include="Platform\TransparentWindow.cs" />
     <Compile Include="Platform\WindowsThemeValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Platform\AppMode.cs" />
     <Compile Include="Platform\RawWindow.cs" />
     <Compile Include="Platform\WindowsTheme.cs" />
     <Compile Include="Interop\Win32\ClassLongPtrIndex.cs" />
@@ -72,6 +84,7 @@
     <Compile Include="Interop\Win32\HitTestValues.cs" />
     <Compile Include="Interop\Win32\MonitorDefaultTo.cs" />
     <Compile Include="Interop\Win32\NativeExtensions.cs" />
+    <Compile Include="Interop\Win32\PreferredAppMode.cs" />
     <Compile Include="Interop\Win32\User32.cs" />
     <Compile Include="Interop\Win32\ShowWindowFlags.cs" />
     <Compile Include="Interop\Win32\SetWindowPosFlags.cs" />
