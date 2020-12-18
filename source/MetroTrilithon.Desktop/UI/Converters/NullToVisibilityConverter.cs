@@ -12,6 +12,10 @@ namespace MetroTrilithon.UI.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
+			if (parameter is bool p && p)
+			{
+				return value == null ? Visibility.Visible : Visibility.Collapsed;
+			}
 			return value == null ? Visibility.Collapsed : Visibility.Visible;
 		}
 

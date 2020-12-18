@@ -15,7 +15,7 @@ using MetroChrome = MetroRadiance.Chrome.WindowChrome;
 namespace MetroRadiance.UI.Controls
 {
 	/// <summary>
-	/// Metro スタイル風のウィンドウを表します。
+	/// 表示Metro风格的窗口。
 	/// </summary>
 	[TemplatePart(Name = PART_ResizeGrip, Type = typeof(FrameworkElement))]
 	public class MetroWindow : Window
@@ -28,12 +28,12 @@ namespace MetroRadiance.UI.Controls
 		}
 
 		/// <summary>
-		/// WPF が認識しているシステムの DPI (プライマリ モニターの DPI)。
+		/// WPF已知的系统的DPI（主监视器的DPI）。
 		/// </summary>
 		private Dpi systemDpi;
 
 		/// <summary>
-		/// このウィンドウが表示されているモニターの現在の DPI。
+		/// 显示此窗口的监视器的当前DPI。
 		/// </summary>
 		internal Dpi CurrentDpi { get; set; }
 
@@ -65,7 +65,7 @@ namespace MetroRadiance.UI.Controls
 		#region DpiScaleTransform 依存関係プロパティ
 
 		/// <summary>
-		/// DPI スケーリングを実現する <see cref="Transform" /> を取得または設定します。
+		/// 获取或设置实现DPI缩放的<see cref ="Transform" />。
 		/// </summary>
 		public Transform DpiScaleTransform
 		{
@@ -81,7 +81,7 @@ namespace MetroRadiance.UI.Controls
 		#region IsRestoringWindowPlacement 依存関係プロパティ
 
 		/// <summary>
-		/// ウィンドウの位置とサイズを復元できるようにするかどうかを示す値を取得または設定します。
+		/// 获取或设置一个值，该值指示是否可以还原窗口的位置和大小。
 		/// </summary>
 		public bool IsRestoringWindowPlacement
 		{
@@ -96,7 +96,7 @@ namespace MetroRadiance.UI.Controls
 		#region WindowSettings 依存関係プロパティ
 
 		/// <summary>
-		/// ウィンドウの位置とサイズを保存または復元する方法を指定するオブジェクトを取得または設定します。
+		/// 获取或设置一个对象，该对象指定如何保​​存或还原窗口的位置和大小。
 		/// </summary>
 		public IWindowSettings WindowSettings
 		{

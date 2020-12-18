@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetroTrilithon", "MetroTril
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetroTrilithon.Desktop", "RetroTrilithon.Desktop\RetroTrilithon.Desktop.csproj", "{75A62817-2F64-4179-939C-B28914BDC566}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroRadiance.Core.Net5", "MetroRadiance.Core.Net5\MetroRadiance.Core.Net5.csproj", "{DE04F620-FB1A-4D23-8391-53E48E9B58C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +145,18 @@ Global
 		{75A62817-2F64-4179-939C-B28914BDC566}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75A62817-2F64-4179-939C-B28914BDC566}.Release|x86.ActiveCfg = Release|Any CPU
 		{75A62817-2F64-4179-939C-B28914BDC566}.Release|x86.Build.0 = Release|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Debug|x86.Build.0 = Debug|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Release RETRO|Any CPU.ActiveCfg = Release|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Release RETRO|Any CPU.Build.0 = Release|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Release RETRO|x86.ActiveCfg = Release|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Release RETRO|x86.Build.0 = Release|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{DE04F620-FB1A-4D23-8391-53E48E9B58C1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

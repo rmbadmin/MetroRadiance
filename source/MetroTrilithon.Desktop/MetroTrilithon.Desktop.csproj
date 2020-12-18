@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MetroTrilithon</RootNamespace>
     <AssemblyName>MetroTrilithon.Desktop</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -76,6 +76,7 @@
     <Compile Include="Desktop\Interop\WIN32_FIND_DATA.cs" />
     <Compile Include="Desktop\ShellLink.cs" />
     <Compile Include="Desktop\SystemEnvironment.cs" />
+    <Compile Include="UI\Converters\ReverseBooleanToVisibilityConverter.cs" />
     <Compile Include="UI\Interactivity\ScrollBarThresholdBehavior.cs" />
     <Compile Include="UI\Controls\CallMethodButton.cs" />
     <Compile Include="UI\Controls\ControlExtensions.cs" />
