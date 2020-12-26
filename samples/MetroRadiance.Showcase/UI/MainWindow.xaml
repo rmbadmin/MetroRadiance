@@ -11,11 +11,11 @@
 					  Width="700"
 					  Height="700"
 					  Background="{DynamicResource ThemeBrushKey}"
-					  IsRestoringWindowPlacement="True"
 					  UseLayoutRounding="True"
+                      IsRestoringWindowPlacement="True"
 					  TextOptions.TextFormattingMode="Display">
 
-	<chrome:WindowChrome.Instance>
+    <chrome:WindowChrome.Instance>
 		<chrome:WindowChrome x:Name="WindowChrome">
 			<chrome:WindowChrome.Top>
 				<Border Background="DarkRed"

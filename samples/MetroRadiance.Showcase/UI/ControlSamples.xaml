@@ -71,7 +71,13 @@
 					    Height="30"
 					    HorizontalAlignment="Left"
 					    Click="HandleAcrylicBlurWindowButtonClicked"/>
-              </StackPanel>
+                <Button Content="hide"
+					    Margin="4,4"
+					    Width="140"
+					    Height="30"
+					    HorizontalAlignment="Left"
+					    Click="Button_Click"/>
+            </StackPanel>
 		</StackPanel>
 	</ScrollViewer>
 </UserControl>

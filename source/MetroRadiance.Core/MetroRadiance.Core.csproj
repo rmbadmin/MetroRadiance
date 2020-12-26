@@ -70,6 +70,7 @@
     <Compile Include="Platform\WindowsThemeValues.cs" />
     <Compile Include="Platform\TransparentWindow.cs" />
     <Compile Include="Platform\WindowsThemeValue.cs" />
+    <Compile Include="Platform\WindowsVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
