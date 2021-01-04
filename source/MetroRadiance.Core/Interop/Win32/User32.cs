@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace MetroRadiance.Interop.Win32
 {
@@ -32,9 +33,11 @@ namespace MetroRadiance.Interop.Win32
 			return (WindowExStyles)SetWindowLong(hWnd, (int)WindowLongFlags.GWL_EXSTYLE, (int)dwNewLong);
 		}
 
+#pragma warning disable IDE1006
 		[DllImport("user32.dll", EntryPoint = "SetWindowPos", SetLastError = true, ExactSpelling = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool _SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SetWindowPosFlags flags);
+#pragma warning restore IDE1006
 
 		public static void SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SetWindowPosFlags flags)
 		{
@@ -51,8 +54,7 @@ namespace MetroRadiance.Interop.Win32
 
 		public static WINDOWPLACEMENT GetWindowPlacement(IntPtr hWnd)
 		{
-			WINDOWPLACEMENT wndpl;
-			if (!GetWindowPlacement(hWnd, out wndpl)) 
+			if (!GetWindowPlacement(hWnd, out var wndpl))
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
@@ -68,8 +70,7 @@ namespace MetroRadiance.Interop.Win32
 
 		public static RECT GetWindowRect(IntPtr hWnd)
 		{
-			RECT rect;
-			var ret = GetWindowRect(hWnd, out rect);
+			var ret = GetWindowRect(hWnd, out var rect);
 			if (!ret) throw new Win32Exception(Marshal.GetLastWin32Error());
 			return rect;
 		}
@@ -86,30 +87,30 @@ namespace MetroRadiance.Interop.Win32
 		[DllImport("user32.dll", EntryPoint = "SendMessageW", CharSet = CharSet.Unicode, SetLastError = true, ExactSpelling = true)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, WindowsMessages msg, IntPtr wParam, IntPtr lParam);
 
-		public static WindowClassStyles GetClassLong(IntPtr hwnd, ClassLongPtrIndex nIndex)
+		public static IntPtr GetClassLong(IntPtr hwnd, ClassLongPtrIndex nIndex)
 		{
 			return Environment.Is64BitProcess
-				? (WindowClassStyles)GetClassLong64(hwnd, nIndex)
-				: (WindowClassStyles)GetClassLong32(hwnd, nIndex);
+				? GetClassLong64(hwnd, nIndex)
+				: GetClassLong32(hwnd, nIndex);
 		}
 
-		[DllImport("user32.dll", EntryPoint = "GetClassLong")]
+		[DllImport("user32.dll", EntryPoint = "GetClassLongW", CharSet = CharSet.Unicode, SetLastError = true, ExactSpelling = true)]
 		public static extern IntPtr GetClassLong32(IntPtr hwnd, ClassLongPtrIndex nIndex);
 
-		[DllImport("user32.dll", EntryPoint = "GetClassLongPtr")]
+		[DllImport("user32.dll", EntryPoint = "GetClassLongPtrW", CharSet = CharSet.Unicode, SetLastError = true, ExactSpelling = true)]
 		public static extern IntPtr GetClassLong64(IntPtr hwnd, ClassLongPtrIndex nIndex);
 
-		public static WindowClassStyles SetClassLong(IntPtr hwnd, ClassLongPtrIndex nIndex, WindowClassStyles dwNewLong)
+		public static IntPtr SetClassLong(IntPtr hwnd, ClassLongPtrIndex nIndex, IntPtr dwNewLong)
 		{
 			return Environment.Is64BitProcess
-				? (WindowClassStyles)SetClassLong64(hwnd, nIndex, (IntPtr)dwNewLong)
-				: (WindowClassStyles)SetClassLong32(hwnd, nIndex, (IntPtr)dwNewLong);
+				? SetClassLong64(hwnd, nIndex, dwNewLong)
+				: SetClassLong32(hwnd, nIndex, dwNewLong);
 		}
 
-		[DllImport("user32.dll", EntryPoint = "SetClassLong")]
+		[DllImport("user32.dll", EntryPoint = "SetClassLongW", CharSet = CharSet.Unicode, SetLastError = true, ExactSpelling = true)]
 		public static extern IntPtr SetClassLong32(IntPtr hWnd, ClassLongPtrIndex nIndex, IntPtr dwNewLong);
 
-		[DllImport("user32.dll", EntryPoint = "SetClassLongPtr")]
+		[DllImport("user32.dll", EntryPoint = "SetClassLongPtrW", CharSet = CharSet.Unicode, SetLastError = true, ExactSpelling = true)]
 		public static extern IntPtr SetClassLong64(IntPtr hWnd, ClassLongPtrIndex nIndex, IntPtr dwNewLong);
 
 		[DllImport("user32.dll", EntryPoint = "GetMonitorInfoW", SetLastError = true, ExactSpelling = true)]
@@ -123,6 +124,15 @@ namespace MetroRadiance.Interop.Win32
 		[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
 		public static extern IntPtr MonitorFromWindow(IntPtr hwnd, MonitorDefaultTo dwFlags);
 
+		[DllImport("user32.dll", SetLastError = true, ExactSpelling = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool IsProcessDPIAware();
+
+		[DllImport("user32.dll", ExactSpelling = true)]
+		public static extern uint GetDpiForSystem();
+
+		[DllImport("user32.dll", ExactSpelling = true)]
+		public static extern uint GetDpiForWindow(IntPtr hWnd);
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool IsWindow(IntPtr hWnd);
@@ -154,6 +164,18 @@ namespace MetroRadiance.Interop.Win32
 		[DllImport("user32.dll")]
 		public static extern bool CloseWindow(IntPtr hWnd);
 
+		[DllImport("user32.dll", ExactSpelling = true)]
+		public extern static IntPtr GetWindowDC(IntPtr hWnd);
+
+		[DllImport("user32.dll", EntryPoint = "ReleaseDC", ExactSpelling = true)]
+		private extern static int _ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+		public static void ReleaseDC(IntPtr hWnd, IntPtr hDC)
+		{
+			var ret = _ReleaseDC(hWnd, hDC);
+			if (ret != 1) throw new Win32Exception();
+		}
+
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool SetWindowCompositionAttribute(IntPtr hWnd, ref WindowCompositionAttributeData data);
@@ -162,6 +184,20 @@ namespace MetroRadiance.Interop.Win32
 		{
 			var ret = SetWindowCompositionAttribute(hWnd, ref data);
 			if (!ret) throw new Win32Exception(Marshal.GetLastWin32Error());
+		}
+
+		[DllImport("user32.dll", CharSet = CharSet.Unicode)]
+		private static extern int LoadStringW(IntPtr hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
+
+		public static string LoadString(IntPtr hInstance, uint uID)
+		{
+			StringBuilder sb = new StringBuilder(32);
+			int length = LoadStringW(hInstance, uID, sb, 0);
+			if (length == 0) return null;
+
+			sb.EnsureCapacity(length);
+			LoadStringW(hInstance, uID, sb, sb.Capacity + 1);
+			return sb.ToString();
 		}
 	}
 }

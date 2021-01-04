@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace MetroRadiance.Interop.Win32
 {
+
 	public static class Dwmapi
 	{
 		[DllImport("Dwmapi.dll", ExactSpelling = true, PreserveSig = false)]

@@ -13,9 +13,9 @@ namespace MetroRadiance.Platform
 	{
 		static WindowsTheme()
 		{
-			if (WindowsVersion.Is10)
+			var version = Environment.OSVersion.Version;
+			if (version.Major == 10)
 			{
-				var version = WindowsVersion.OSVersion;
 				if (version.Build >= 18282)
 				{
 					Theme = new ThemeValue();
@@ -39,7 +39,8 @@ namespace MetroRadiance.Platform
 				Theme = new WindowsThemeConstantValue<Theme>(Platform.Theme.Light);
 				SystemTheme = new WindowsThemeConstantValue<Theme>(Platform.Theme.Light);
 				ColorPrevalence = new WindowsThemeConstantValue<bool>(true);
-				if (WindowsVersion.IsVistaOr7)
+				if (version.Major == 6 && version.Minor == 0
+					|| version.Major == 6 && version.Minor == 1)
 				{
 					Transparency = new TransparencyValueWindowsVistaOr7();
 				}
@@ -70,7 +71,7 @@ namespace MetroRadiance.Platform
 		public static IWindowsThemeValue<bool> ColorPrevalence { get; }
 
 		public static IWindowsThemeValue<bool> Transparency { get; }
-
+		
 		/// <summary>
 		/// Windows の文字の大きさ設定と、その変更通知機能へアクセスできるようにします。
 		/// </summary>
