@@ -120,18 +120,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MetroRadiance.Chrome\MetroRadiance.Chrome.csproj">
-      <Project>{21b4ad15-d9fa-4873-bfad-1eeefbc6c264}</Project>
-      <Name>MetroRadiance.Chrome</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetroRadiance.Core\MetroRadiance.Core.csproj">
-      <Project>{a6b0a741-5be0-479d-b813-e65672350057}</Project>
-      <Name>MetroRadiance.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetroRadiance\MetroRadiance.csproj">
-      <Project>{0af0b9ff-d981-4d0f-a41f-c3ab6fe2f16d}</Project>
-      <Name>MetroRadiance</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MetroTrilithon\MetroTrilithon.csproj">
       <Project>{5d2c817c-9a8f-4305-bfda-e8b070e7b91b}</Project>
       <Name>MetroTrilithon</Name>

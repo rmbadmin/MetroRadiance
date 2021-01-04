@@ -142,17 +142,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MetroRadiance.Chrome\MetroRadiance.Chrome.csproj">
-      <Project>{21b4ad15-d9fa-4873-bfad-1eeefbc6c264}</Project>
-      <Name>MetroRadiance.Chrome</Name>
+    <ProjectReference Include="..\MetroRadiance.Net5\MetroRadiance.Net5.csproj">
+      <Project>{4385472b-b543-417c-ae0c-575b0a40a052}</Project>
+      <Name>MetroRadiance.Net5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MetroRadiance.Core\MetroRadiance.Core.csproj">
-      <Project>{a6b0a741-5be0-479d-b813-e65672350057}</Project>
-      <Name>MetroRadiance.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetroRadiance\MetroRadiance.csproj">
-      <Project>{0af0b9ff-d981-4d0f-a41f-c3ab6fe2f16d}</Project>
-      <Name>MetroRadiance</Name>
+    <ProjectReference Include="..\RetroRadiance.Net5\RetroRadiance.Net5.csproj">
+      <Project>{dc51c170-ef27-45b8-acf9-31fc9ac1a5a1}</Project>
+      <Name>RetroRadiance.Net5</Name>
     </ProjectReference>
     <ProjectReference Include="D:\Office\GitHubVisualStudio\MetroRadiance\source\\MetroRadiance\source\MetroRadiance.Chrome\MetroRadiance.Chrome.csproj">
       <Project>{21b4ad15-d9fa-4873-bfad-1eeefbc6c264}</Project>

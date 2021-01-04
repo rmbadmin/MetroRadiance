@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net461;net5.0-windows</TargetFrameworks>
+		<UseWPF>true</UseWPF>
+		<RootNamespace>MetroRadiance</RootNamespace>
+		<EnableDefaultPageItems>False</EnableDefaultPageItems>
+		<AssemblyName>MetroRadiance.Chrome</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+		<Reference Include="WindowsBase" />
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="System.Xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Include="Themes\Generic.ChromeWindow.xaml">
+	    <DependentUpon>Generic.xaml</DependentUpon>
+	  </Page>
+	  <Page Include="Themes\Generic.GlowingEdge.Bottom.xaml">
+	    <DependentUpon>Generic.xaml</DependentUpon>
+	  </Page>
+	  <Page Include="Themes\Generic.GlowingEdge.Left.xaml">
+	    <DependentUpon>Generic.xaml</DependentUpon>
+	  </Page>
+	  <Page Include="Themes\Generic.GlowingEdge.Right.xaml">
+	    <DependentUpon>Generic.xaml</DependentUpon>
+	  </Page>
+	  <Page Include="Themes\Generic.GlowingEdge.Top.xaml">
+	    <DependentUpon>Generic.xaml</DependentUpon>
+	  </Page>
+	  <Page Include="Themes\Generic.xaml" />
+	</ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\MetroRadiance.Core.Net5\MetroRadiance.Core.Net5.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Compile Update="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Themes\Generic.ChromeWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Themes\Generic.GlowingEdge.Bottom.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Themes\Generic.GlowingEdge.Left.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Themes\Generic.GlowingEdge.Right.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Themes\Generic.GlowingEdge.Top.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
+</Project>
