@@ -23,7 +23,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\MetroRadiance.Chrome.Net5\MetroRadiance.Chrome.Net5.csproj" />
 		<ProjectReference Include="..\MetroRadiance.Chrome\MetroRadiance.Chrome.csproj" />
 		<ProjectReference Include="..\MetroRadiance.Core\MetroRadiance.Core.csproj" />
 	</ItemGroup>

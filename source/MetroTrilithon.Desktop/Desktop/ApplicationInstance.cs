@@ -6,12 +6,16 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Ipc;
-using System.Runtime.Remoting.Lifetime;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO.Pipes;
+
+#if !NETCOREAPP
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Ipc;
+using System.Runtime.Remoting.Lifetime;
+#endif
 
 namespace MetroTrilithon.Desktop
 {
@@ -20,7 +24,9 @@ namespace MetroTrilithon.Desktop
 	/// </summary>
 	public sealed class ApplicationInstance : IDisposable
 	{
+#if !NETCOREAPP
 		private readonly IChannel _channel;
+#endif
 		private readonly ApplicationInstanceMessage _appInstanceMessage;
 
 		/// <summary>
@@ -46,9 +52,10 @@ namespace MetroTrilithon.Desktop
 			// IPC サーバーの作成に成功した場合、指定したポートを使用する IPC 通信が初めて作成されたものとする
 			// 作成に失敗した場合、別のインスタンスが IPC サーバーを作成しているので、クライアントを作成
 			// で、これらの処理が同時に発生しないよう、Mutex で保護
-			using (var mutex = new Mutex(true, typeof(ApplicationInstanceMessage).FullName + "_" + portName))
+			using (var mutex = new Mutex(true, typeof(ApplicationInstanceMessage).FullName + "_" + portName, out bool flag))
 			{
 				mutex.WaitOne();
+#if !NETCOREAPP
 				try
 				{
 					// サーバーを作成
@@ -64,19 +71,22 @@ namespace MetroTrilithon.Desktop
 					this._appInstanceMessage.MessageReceived += this.OnMessageReceived;
 
 					this.IsFirst = true;
+#else
+					this.IsFirst = flag;
+#endif
+#if !NETCOREAPP
 				}
 				catch (RemotingException)
 				{
 					// クライアント作成
 					this._channel = new IpcClientChannel();
 					ChannelServices.RegisterChannel(this._channel, true);
-
 					RemotingConfiguration.RegisterWellKnownClientType(typeof(ApplicationInstanceMessage), $"ipc://{portName}/{uri}");
-
 					this._appInstanceMessage = new ApplicationInstanceMessage();
 
 					this.IsFirst = false;
 				}
+#endif
 			}
 		}
 
@@ -100,7 +110,9 @@ namespace MetroTrilithon.Desktop
 
 		public void Dispose()
 		{
+#if !NETCOREAPP
 			ChannelServices.UnregisterChannel(this._channel);
+#endif
 		}
 
 
@@ -122,6 +134,7 @@ namespace MetroTrilithon.Desktop
 				this.MessageReceived?.Invoke(commandLineArgs);
 			}
 
+#if !NETCOREAPP
 			public override object InitializeLifetimeService()
 			{
 				// このオブジェクトのリース期限を無制限にするやつ
@@ -131,9 +144,9 @@ namespace MetroTrilithon.Desktop
 				{
 					lease.InitialLeaseTime = TimeSpan.Zero;
 				}
-
 				return lease;
 			}
+#endif
 		}
 	}
 

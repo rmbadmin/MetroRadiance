@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 	<PropertyGroup>
-		<TargetFrameworks>net461</TargetFrameworks>
-		<!--<TargetFrameworks>net461;net5.0-windows</TargetFrameworks>-->
+		<!--<TargetFrameworks>net461</TargetFrameworks>-->
+		<TargetFrameworks>net461;net5.0-windows</TargetFrameworks>
 		<UseWPF>true</UseWPF>
 		<RootNamespace>MetroTrilithon</RootNamespace>
 		<AssemblyName>MetroTrilithon.Desktop</AssemblyName>
@@ -11,6 +11,17 @@
 		<PackageReference Include="LivetCask.Mvvm" Version="3.2.3.1" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+		<Reference Include="System.Configuration" />
+		<Reference Include="System.Management" />
+		<Reference Include="System.Runtime.Remoting" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows'">
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+		<PackageReference Include="System.Management" Version="5.0.0" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\MetroRadiance.Chrome\MetroRadiance.Chrome.csproj" />
 		<ProjectReference Include="..\MetroRadiance.Core\MetroRadiance.Core.csproj" />
@@ -18,11 +29,6 @@
 		<ProjectReference Include="..\MetroTrilithon\MetroTrilithon.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Reference Include="System.Configuration" />
-		<Reference Include="System.Management" />
-		<Reference Include="System.Runtime.Remoting" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Update="Utilities\TypeForwardedTo.g.cs">
@@ -37,9 +43,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Utilities\TypeForwardedTo.tt">
-	    <Generator>TextTemplatingFileGenerator</Generator>
-	    <LastGenOutput>TypeForwardedTo.g.cs</LastGenOutput>
-	  </None>
+		<None Update="Utilities\TypeForwardedTo.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>TypeForwardedTo.g.cs</LastGenOutput>
+		</None>
 	</ItemGroup>
 </Project>
