@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -66,10 +66,10 @@ namespace MetroTrilithon.Serialization
 
 			lock (this._sync)
 			{
-				using (var stream = new FileStream(this._path, FileMode.Create, FileAccess.ReadWrite))
-				{
-					XamlServices.Save(stream, this._settings);
-				}
+				//using (var stream = new FileStream(this._path, FileMode.Create, FileAccess.ReadWrite))
+				//{
+				XamlServices.Save(_path, this._settings);
+				//}
 			}
 		}
 
@@ -77,16 +77,16 @@ namespace MetroTrilithon.Serialization
 		{
 			if (File.Exists(this._path))
 			{
-				using (var stream = new FileStream(this._path, FileMode.Open, FileAccess.Read))
+				//using (var stream = new FileStream(this._path, FileMode.Open, FileAccess.Read))
+				//{
+				lock (this._sync)
 				{
-					lock (this._sync)
-					{
-						var source = XamlServices.Load(stream) as IDictionary<string, object>;
-						this._settings = source == null
-							? new SortedDictionary<string, object>()
-							: new SortedDictionary<string, object>(source);
-					}
+					var source = XamlServices.Load(_path) as IDictionary<string, object>;
+					this._settings = source == null
+						? new SortedDictionary<string, object>()
+						: new SortedDictionary<string, object>(source);
 				}
+				//}
 			}
 			else
 			{
