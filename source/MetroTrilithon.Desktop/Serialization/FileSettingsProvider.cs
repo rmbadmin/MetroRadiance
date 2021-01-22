@@ -68,6 +68,10 @@ namespace MetroTrilithon.Serialization
 			{
 				using (var stream = new FileStream(this._path, FileMode.Create, FileAccess.ReadWrite))
 				{
+					if (stream.Position > 0)
+					{
+						stream.Position = 0;
+					}
 					XamlServices.Save(stream, this._settings);
 				}
 			}
@@ -81,6 +85,10 @@ namespace MetroTrilithon.Serialization
 				{
 					lock (this._sync)
 					{
+						if (stream.Position > 0)
+						{
+							stream.Position = 0;
+						}
 						var source = XamlServices.Load(stream) as IDictionary<string, object>;
 						this._settings = source == null
 							? new SortedDictionary<string, object>()
